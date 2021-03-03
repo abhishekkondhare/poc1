@@ -5,6 +5,7 @@ import abhiandroid.com.recyclerviewexample.Model.Country
 import abhiandroid.com.recyclerviewexample.R
 import abhiandroid.com.recyclerviewexample.Utilities.Utils
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,12 +15,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // get the reference of RecyclerView
-        val recyclerView = findViewById(R.id.recyclerView) as RecyclerView
-        // set a LinearLayoutManager with default vertical orientation
+        countryObj = Utils.parseJsonData(applicationContext)
+        val countryName = findViewById<TextView>(R.id.countryName)
+        countryName.text = countryObj?.title
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         val linearLayoutManager = LinearLayoutManager(applicationContext)
         recyclerView.layoutManager = linearLayoutManager
-        countryObj = Utils.parseJsonData(applicationContext)
         countryObj?.run {
             recyclerView.adapter = CustomAdapter(this@MainActivity, this.rows)
         }

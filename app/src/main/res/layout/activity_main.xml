@@ -4,9 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="abhiandroid.com.recyclerviewexample.View.MainActivity">
+    <TextView
+        android:id="@+id/countryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/countryName"/>
 </RelativeLayout>
