@@ -4,14 +4,13 @@ import abhiandroid.com.recyclerviewexample.Adapter.CustomAdapter.MyViewHolder
 import abhiandroid.com.recyclerviewexample.Model.Row
 import abhiandroid.com.recyclerviewexample.R
 import android.content.Context
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class CustomAdapter(var context: Context, var infoRows: List<Row>?) : RecyclerView.Adapter<MyViewHolder>() {
@@ -38,7 +37,7 @@ class CustomAdapter(var context: Context, var infoRows: List<Row>?) : RecyclerVi
         return infoRows!!.size
     }
 
-    inner class MyViewHolder(itemView: View) : ViewHolder(itemView) {
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var title : TextView = itemView.findViewById(R.id.title) as TextView
         var description : TextView = itemView.findViewById(R.id.description) as TextView
         var image: ImageView = itemView.findViewById(R.id.image) as ImageView

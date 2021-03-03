@@ -3,10 +3,8 @@ package abhiandroid.com.recyclerviewexample.Utilities
 import abhiandroid.com.recyclerviewexample.Model.Country
 import android.content.Context
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.io.InputStream
-import java.lang.reflect.Type
 
 
 class Utils {

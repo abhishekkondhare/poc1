@@ -5,10 +5,9 @@ import abhiandroid.com.recyclerviewexample.Model.Country
 import abhiandroid.com.recyclerviewexample.R
 import abhiandroid.com.recyclerviewexample.Utilities.Utils
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import java.util.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     private var countryObj: Country? = null
