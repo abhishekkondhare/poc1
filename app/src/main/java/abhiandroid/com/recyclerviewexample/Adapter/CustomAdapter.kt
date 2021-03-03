@@ -21,12 +21,14 @@ class CustomAdapter(var context: Context, var infoRows: List<Row>?) : RecyclerVi
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         infoRows?.run {
-            holder.title.text = this[position].title
-            holder.description.text = this[position].description
-            holder.title.text = this[position].title
-            Glide.with(context)
-                    .load(this[position].imageHref)
-                    .into(holder.image);
+            this[position].title?.run {
+                holder.title.text = this
+            }
+            this[position].description?.run {
+                holder.description.text = this
+            }
+            Glide.with(context).load(this[position].imageHref).error(R.drawable.no_image_found)
+                    .fallback(R.drawable.no_image_found).into(holder.image);
             holder.itemView.setOnClickListener {
                 Toast.makeText(context, this[position].title, Toast.LENGTH_SHORT).show()
             }
