@@ -1,6 +1,6 @@
-package abhiandroid.com.recyclerviewexample.Utilities
+package abhiandroid.com.recyclerviewexample.utilities
 
-import abhiandroid.com.recyclerviewexample.Model.Country
+import abhiandroid.com.recyclerviewexample.model.Country
 import android.content.Context
 import com.google.gson.Gson
 import java.io.IOException
@@ -10,10 +10,10 @@ import java.io.InputStream
 class Utils {
 
     companion object{
-        fun getJsonFromAssets(context: Context): String? {
+        private fun getJsonFromAssets(context: Context): String? {
             val jsonString: String
             jsonString = try {
-                val inputStream: InputStream = context.getAssets().open("Sample.json")
+                val inputStream: InputStream = context.assets.open("Sample.json")
                 val size: Int = inputStream.available()
                 val buffer = ByteArray(size)
                 inputStream.read(buffer)
@@ -27,11 +27,11 @@ class Utils {
         }
 
         fun parseJsonData(context: Context): Country?{
-            try {
+            return try {
                 val jsonString = getJsonFromAssets(context)
-                return Gson().fromJson(jsonString, Country::class.java)
+                Gson().fromJson(jsonString, Country::class.java)
             } catch (e: Exception) {
-                return null
+                null
             }
         }
     }

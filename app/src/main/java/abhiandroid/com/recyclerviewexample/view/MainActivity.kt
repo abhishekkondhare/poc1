@@ -1,15 +1,11 @@
-package abhiandroid.com.recyclerviewexample.View
+package abhiandroid.com.recyclerviewexample.view
 
-import abhiandroid.com.recyclerviewexample.Adapter.CustomAdapter
-import abhiandroid.com.recyclerviewexample.Model.Country
+import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter
 import abhiandroid.com.recyclerviewexample.R
-import abhiandroid.com.recyclerviewexample.Utilities.Utils
 import abhiandroid.com.recyclerviewexample.viewmodel.CountryViewModel
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,26 +23,28 @@ class MainActivity : AppCompatActivity() {
 
         initViews()
         initViewModel()
-
+        registerCountryDataObserver()
         getListData()
     }
 
-    private fun initViews() {
-        countryName = findViewById<TextView>(R.id.countryName)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        linearLayoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.layoutManager = linearLayoutManager
-    }
-
-    private fun getListData(){
-        countryViewModel.getCountryData(applicationContext).observe(this, Observer<Country>{
+    private fun registerCountryDataObserver() {
+        countryViewModel.countryLivedata.observe(this, {
             countryName.text = it?.title
             it?.run {
                 recyclerView.adapter = CustomAdapter(this@MainActivity, this.rows)
             }
         })
+    }
 
+    private fun initViews() {
+        countryName = findViewById(R.id.countryName)
+        recyclerView = findViewById(R.id.recyclerView)
+        linearLayoutManager = LinearLayoutManager(applicationContext)
+        recyclerView.layoutManager = linearLayoutManager
+    }
 
+    private fun getListData(){
+        countryViewModel.getCountryData(applicationContext)
     }
 
     private fun initViewModel(){

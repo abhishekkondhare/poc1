@@ -1,17 +1,17 @@
 package abhiandroid.com.recyclerviewexample.viewmodel
 
-import abhiandroid.com.recyclerviewexample.Model.Country
-import abhiandroid.com.recyclerviewexample.Utilities.Utils
+import abhiandroid.com.recyclerviewexample.model.Country
+import abhiandroid.com.recyclerviewexample.repository.CountryRepository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class CountryViewModel: ViewModel() {
 
-    private val countryLivedata = MutableLiveData<Country>()
+    val countryLivedata = MutableLiveData<Country>()
+    private val countryRepository = CountryRepository()
 
-    fun getCountryData(context: Context): MutableLiveData<Country>{
-        countryLivedata.value = Utils.parseJsonData(context)
-        return countryLivedata
+    fun getCountryData(context: Context){
+        countryLivedata.value = countryRepository.getCountryData(context)
     }
 }

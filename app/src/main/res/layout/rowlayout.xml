@@ -16,13 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="No Title"/>
+        android:text="@string/no_title"/>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="No Description Found"
+        android:text="@string/no_description_found"
         android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/image"
@@ -41,5 +41,6 @@
         app:layout_constraintStart_toEndOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="1.0"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/dataimage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
-package abhiandroid.com.recyclerviewexample.Adapter
+package abhiandroid.com.recyclerviewexample.adapter
 
-import abhiandroid.com.recyclerviewexample.Adapter.CustomAdapter.MyViewHolder
-import abhiandroid.com.recyclerviewexample.Model.Row
+import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter.MyViewHolder
+import abhiandroid.com.recyclerviewexample.model.Row
 import abhiandroid.com.recyclerviewexample.R
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CustomAdapter(var context: Context, var infoRows: List<Row>?) : RecyclerView.Adapter<MyViewHolder>() {
+class CustomAdapter(private var context: Context, private var infoRows: List<Row>?) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.rowlayout, parent, false)
         return MyViewHolder(v)
@@ -28,7 +28,7 @@ class CustomAdapter(var context: Context, var infoRows: List<Row>?) : RecyclerVi
                 holder.description.text = this
             }
             Glide.with(context).load(this[position].imageHref).error(R.drawable.no_image_found)
-                    .fallback(R.drawable.no_image_found).into(holder.image);
+                    .fallback(R.drawable.no_image_found).into(holder.image)
             holder.itemView.setOnClickListener {
                 Toast.makeText(context, this[position].title, Toast.LENGTH_SHORT).show()
             }
