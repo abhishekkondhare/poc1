@@ -2,36 +2,34 @@ package abhiandroid.com.recyclerviewexample.adapter
 
 import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter.MyViewHolder
 import abhiandroid.com.recyclerviewexample.model.Row
-import abhiandroid.com.recyclerviewexample.R
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 
-class CustomAdapter(private var context: Context, private var infoRows: List<Row>?) : RecyclerView.Adapter<MyViewHolder>() {
+class CustomAdapter(@LayoutRes var layoutId: Int, private var infoRows: List<Row>?) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.rowlayout, parent, false)
-        return MyViewHolder(v)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
+        return MyViewHolder(binding)
+    }
+
+    private fun getLayoutIdForPosition(): Int {
+        return layoutId
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return getLayoutIdForPosition()
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         infoRows?.run {
-            this[position].title?.run {
-                holder.title.text = this
-            }
-            this[position].description?.run {
-                holder.description.text = this
-            }
-            Glide.with(context).load(this[position].imageHref).error(R.drawable.no_image_found)
-                    .fallback(R.drawable.no_image_found).into(holder.image)
-            holder.itemView.setOnClickListener {
-                Toast.makeText(context, this[position].title, Toast.LENGTH_SHORT).show()
-            }
+            val currentRow = this[position]
+            holder.bind(currentRow)
+            holder.binding.executePendingBindings()
         }
     }
 
@@ -39,10 +37,11 @@ class CustomAdapter(private var context: Context, private var infoRows: List<Row
         return infoRows!!.size
     }
 
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var title : TextView = itemView.findViewById(R.id.title) as TextView
-        var description : TextView = itemView.findViewById(R.id.description) as TextView
-        var image: ImageView = itemView.findViewById(R.id.image) as ImageView
+    inner class MyViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(row: Row) {
+            binding.setVariable(BR.row, row)
+            binding.executePendingBindings()
+        }
     }
 
 }

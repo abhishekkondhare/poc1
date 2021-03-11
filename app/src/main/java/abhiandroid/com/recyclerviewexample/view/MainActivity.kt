@@ -1,27 +1,25 @@
+@file:Suppress("DEPRECATION")
+
 package abhiandroid.com.recyclerviewexample.view
 
-import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter
+import abhiandroid.com.recyclerviewexample.BR
 import abhiandroid.com.recyclerviewexample.R
+import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter
+import abhiandroid.com.recyclerviewexample.databinding.ActivityMainBinding
 import abhiandroid.com.recyclerviewexample.viewmodel.CountryViewModel
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var countryName: TextView
     private lateinit var countryViewModel: CountryViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        initViews()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViewModel()
         registerCountryDataObserver()
         getListData()
@@ -29,25 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun registerCountryDataObserver() {
         countryViewModel.countryLivedata.observe(this, {
-            countryName.text = it?.title
-            it?.run {
-                recyclerView.adapter = CustomAdapter(this@MainActivity, this.rows)
-            }
+            binding.setVariable(BR.country, it)
+            binding.setVariable(BR.adapter, CustomAdapter(R.layout.rowlayout, it.rows))
+            binding.executePendingBindings()
         })
     }
 
-    private fun initViews() {
-        countryName = findViewById(R.id.countryName)
-        recyclerView = findViewById(R.id.recyclerView)
-        linearLayoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.layoutManager = linearLayoutManager
-    }
-
-    private fun getListData(){
+    private fun getListData() {
         countryViewModel.getCountryData(applicationContext)
     }
 
-    private fun initViewModel(){
+    private fun initViewModel() {
         countryViewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
     }
 }

@@ -3,9 +3,8 @@ package abhiandroid.com.recyclerviewexample.model
 data class Country (
         val title: String,
         val rows: List<Row>
-) {
-    companion object
-}
+)
+
 
 data class Row (
         val title: String? = null,
