@@ -1,12 +1,11 @@
 package abhiandroid.com.recyclerviewexample.repository
 
 import abhiandroid.com.recyclerviewexample.model.Country
-import abhiandroid.com.recyclerviewexample.utilities.Utils
-import android.content.Context
+import abhiandroid.com.recyclerviewexample.network.RetrofitClient
+import io.reactivex.Observable
 
 class CountryRepository {
-
-    fun getCountryData(context: Context): Country?{
-        return Utils.parseJsonData(context)
+    fun getCountryData(): Observable<Country> {
+        return RetrofitClient.buildService().getCountryData()
     }
 }
