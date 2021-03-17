@@ -12,14 +12,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var countryViewModel: CountryViewModel
     private lateinit var binding: ActivityMainBinding
-    private lateinit var compositeDisposable: CompositeDisposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun registerCountryDataObserver() {
         countryViewModel.countryLivedata.observe(this, {
+            progressBar_cyclic.visibility = View.GONE
             binding.setVariable(BR.country, it)
             binding.setVariable(BR.adapter, CustomAdapter(R.layout.rowlayout, it.rows))
             binding.executePendingBindings()
@@ -49,10 +48,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         countryViewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.clear()
     }
 }
