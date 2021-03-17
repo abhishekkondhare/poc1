@@ -2,7 +2,9 @@
 
 package abhiandroid.com.recyclerviewexample.view
 
+import abhiandroid.com.recyclerviewexample.BR
 import abhiandroid.com.recyclerviewexample.R
+import abhiandroid.com.recyclerviewexample.adapter.CustomAdapter
 import abhiandroid.com.recyclerviewexample.databinding.ActivityMainBinding
 import abhiandroid.com.recyclerviewexample.viewmodel.CountryViewModel
 import android.os.Bundle
@@ -22,10 +24,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        compositeDisposable = CompositeDisposable()
         initViewModel()
+        registerCountryDataObserver()
         showLoadingSign()
         getListData()
+    }
+
+    private fun registerCountryDataObserver() {
+        countryViewModel.countryLivedata.observe(this, {
+            binding.setVariable(BR.country, it)
+            binding.setVariable(BR.adapter, CustomAdapter(R.layout.rowlayout, it.rows))
+            binding.executePendingBindings()
+        })
     }
 
     private fun showLoadingSign() {
@@ -33,8 +43,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getListData() {
-        countryViewModel.getCountryData(compositeDisposable, binding, progressBar_cyclic)
+        countryViewModel.getCountryData()
     }
+
 
     private fun initViewModel() {
         countryViewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
