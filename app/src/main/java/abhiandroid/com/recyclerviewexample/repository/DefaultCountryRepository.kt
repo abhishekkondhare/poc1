@@ -4,8 +4,10 @@ import abhiandroid.com.recyclerviewexample.model.Country
 import abhiandroid.com.recyclerviewexample.network.RetrofitClient
 import io.reactivex.Observable
 
-class CountryRepository {
-    fun getCountryData(): Observable<Country> {
+open class DefaultCountryRepository : ICountryRepository {
+
+    override fun getCountryData(): Observable<Country> {
         return RetrofitClient.buildService().getCountryData()
     }
+
 }

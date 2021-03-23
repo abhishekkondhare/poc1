@@ -24,6 +24,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -41,12 +45,34 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.7.7'
+    androidTestImplementation 'org.mockito:mockito-android:3.7.7'
+    testImplementation 'org.mockito:mockito-inline:3.7.7'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.7.7'
+
+    //Koin
+    implementation "org.koin:koin-android:2.0.1"
+    //Mockk
+    testImplementation "io.mockk:mockk:1.9.3"
+    //Koin Test
+    androidTestImplementation "org.koin:koin-test:2.0.1"
+    testImplementation "org.koin:koin-test:2.0.1"
+    //Mockwebserver
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.1.0"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.1.0"
+
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
 
 }
 repositories {
