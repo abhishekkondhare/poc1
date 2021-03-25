@@ -17,21 +17,22 @@ class CountryViewModel: ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     fun getCountryData(){
-        countryRepository.getCountryData().observeOn(AndroidSchedulers.mainThread())
-                ?.subscribeOn(Schedulers.io())
+        countryRepository.getCountryData().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 ?.subscribe({ response -> handleResponse(response)}, { t -> onFailure(t)})?.let { compositeDisposable.add(it) }
     }
 
     private fun handleResponse(countryData: Country?) {
         countryData?.let {
             Log.d(TAG, "***Data received - $it")
-            countryLivedata.value = it
+            countryLivedata.postValue(it)
         }
 
     }
 
     private fun onFailure(t: Throwable) {
-        t.message?.let { Log.d(TAG, it) }
+        t.message?.let { Log.d(TAG, it)
+            countryLivedata.postValue(Country("", listOf()))}
     }
 
     override fun onCleared() {

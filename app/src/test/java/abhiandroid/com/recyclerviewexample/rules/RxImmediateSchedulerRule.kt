@@ -8,7 +8,6 @@ import io.reactivex.plugins.RxJavaPlugins
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
 class RxImmediateSchedulerRule: TestRule {
@@ -18,8 +17,8 @@ class RxImmediateSchedulerRule: TestRule {
             return super.scheduleDirect(run, 0, unit)
         }
 
-        override fun createWorker(): Scheduler.Worker {
-            return ExecutorScheduler.ExecutorWorker(Executor { it.run() })
+        override fun createWorker(): Worker {
+            return ExecutorScheduler.ExecutorWorker { it.run() }
         }
     }
 
@@ -27,11 +26,11 @@ class RxImmediateSchedulerRule: TestRule {
         return object : Statement() {
             @Throws(Throwable::class)
             override fun evaluate() {
-                RxJavaPlugins.setInitIoSchedulerHandler { scheduler -> immediate }
-                RxJavaPlugins.setInitComputationSchedulerHandler { scheduler -> immediate }
-                RxJavaPlugins.setInitNewThreadSchedulerHandler { scheduler -> immediate }
-                RxJavaPlugins.setInitSingleSchedulerHandler { scheduler -> immediate }
-                RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> immediate }
+                RxJavaPlugins.setInitIoSchedulerHandler { immediate }
+                RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
+                RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
+                RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
+                RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
 
                 try {
                     base.evaluate()
